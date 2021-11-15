@@ -7,7 +7,6 @@ use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -24,7 +23,6 @@ class Role
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"boost"})
      */
     private $name;
 

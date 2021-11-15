@@ -79,7 +79,7 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      * @Groups({"boost"})
      */
     private $role;

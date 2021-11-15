@@ -6,20 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     normalizationContext={"groups": {"boost"}},
+ *     normalizationContext={"groups"={"user:read"}},
+ *     denormalizationContext={"groups"={"user:write"}}
  * )
- * @ApiFilter(SearchFilter::class, properties={"username": "exact"})
  */
 class User implements UserInterface
 {
@@ -28,14 +25,14 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"boost"})
+     * @Groups({"user:read", "article:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      *
-     * @Groups({"boost"})
+     * @Groups({"user:read", "user:write"})
      */
     private $email;
 
@@ -55,14 +52,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"boost", "article:read"})
+     * @Groups({"user:read", "user:write", "article:read"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"boost"})
+     * @Groups({"user:read", "user:write"})
      */
     private $name;
 
@@ -79,8 +76,8 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
-     * @Groups({"boost"})
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     * @Groups({"user:read", "user:write"})
      */
     private $role;
 

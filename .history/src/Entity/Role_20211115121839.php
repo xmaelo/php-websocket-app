@@ -4,10 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\RoleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -24,26 +21,18 @@ class Role
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"boost"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"boost"})
      */
     private $task_name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="role")
      */
-    private $users;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
-
+    private $user;
 
     public function getId(): ?int
     {
@@ -74,32 +63,14 @@ class Role
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getRole() === $this) {
-                $user->setRole(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

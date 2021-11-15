@@ -28,14 +28,14 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"boost"})
+     * @Groups({boost})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      *
-     * @Groups({"boost"})
+     * @Groups({boost})
      */
     private $email;
 
@@ -55,14 +55,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"boost", "article:read"})
+     * @Groups({boost, "article:read"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"boost"})
+     * @Groups({boost})
      */
     private $name;
 
@@ -79,8 +79,8 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
-     * @Groups({"boost"})
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     * @Groups({boost})
      */
     private $role;
 

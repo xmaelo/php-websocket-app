@@ -152,7 +152,7 @@ class Consommable
     }
     public function getActivated(): ?bool
     {
-        return $this->activated;
+        return $this->activate;
     }
 
     
@@ -197,9 +197,9 @@ class Consommable
     }
 
 
-    public function setActivated(?bool $activated): self
+    public function setActivated(?bool $activate): self
     {
-        $this->activated = $activated;
+        $this->activate = $activate;
 
         return $this;
     }

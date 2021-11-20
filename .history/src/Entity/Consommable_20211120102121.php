@@ -78,7 +78,6 @@ class Consommable
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeConsommable::class)
-     * @Groups({"read"})
     */
     public $typeConsommable;
 
@@ -89,9 +88,8 @@ class Consommable
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
-     *  @Groups({"read"})
      */
-    public $activated;
+    public $status;
 
     public function __construct()
     {
@@ -150,12 +148,17 @@ class Consommable
 
         return $this;
     }
-    public function getActivated(): ?bool
+    public function getStatus(): ?string
     {
-        return $this->activated;
+        return $this->status;
     }
 
-    
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 
     public function getTypeConsommable(): ?TypeConsommable
     {
@@ -196,10 +199,14 @@ class Consommable
         return $this;
     }
 
-
-    public function setActivated(?bool $activated): self
+    public function getStatus(): ?bool
     {
-        $this->activated = $activated;
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

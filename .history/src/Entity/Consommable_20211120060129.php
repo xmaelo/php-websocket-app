@@ -3,18 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Repository\ConsommableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Controller\OrderAction;
-use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
+ * 
  * @ApiResource(
  *   normalizationContext={"groups" = {"read"}},
  *   denormalizationContext={"groups" = {"write"}},
@@ -23,48 +20,72 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     "post" = {
  *       "controller" = OrderAction::class,
  *       "deserialize" = false,
+ *       "openapi_context" = {
+ *         "requestBody" = {
+ *           "description" = "File upload to an existing resource (superheroes)",
+ *           "required" = true,
+ *           "content" = {
+ *             "multipart/form-data" = {
+ *               "schema" = {
+ *                 "type" = "object",
+ *                 "properties" = {
+ *                   "name" = {
+ *                     "description" = "The name of the superhero",
+ *                     "type" = "string",
+ *                     "example" = "Clark Kent",
+ *                   },
+ *                   "description" = {
+ *                     "description" = "The slug of the superhero",
+ *                     "type" = "string",
+ *                     "example" = "superman",
+ *                   },
+ *                   "featured" = {
+ *                     "description" = "Whether this superhero should be featured or not",
+ *                     "type" = "boolean",
+ *                   },
+ *                   "file" = {
+ *                     "type" = "string",
+ *                     "format" = "binary",
+ *                     "description" = "Upload a cover image of the superhero",
+ *                   },
+ *                 },
+ *               },
+ *             },
+ *           },
+ *         },
  *       },
+ *     },
  *   },
- *   itemOperations={
- *     "get",
- *     "patch",
- *     "delete",
- *     "put",
- *   }
  * )
+ * @ORM\Entity(repositoryClass=ConsommableRepository::class)
  */
-
 class Consommable
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
-    public $name;
+    private $name;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"read"})
      */
-    public $price;
+    private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
-    public $description;
+    private $description;
 
     /**
+    *
     * @ORM\Column()
-    * @Groups({"read"})
     * @ApiProperty(
     *   iri="http://schema.org/image",
     *   attributes={
@@ -74,24 +95,23 @@ class Consommable
     *   }
     * )
     */
-    public $picture;
+    public $path = null;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeConsommable::class)
-     * @Groups({"read"})
-    */
-    public $typeConsommable;
+     */
+    private $typeConsommable;
 
     /**
      * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="consommableId")
      */
-    public $orders;
+    private $orders;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
-     *  @Groups({"read"})
      */
-    public $activated;
+    private $status;
 
     public function __construct()
     {
@@ -139,24 +159,6 @@ class Consommable
         return $this;
     }
 
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(string $picture): self
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    
-
     public function getTypeConsommable(): ?TypeConsommable
     {
         return $this->typeConsommable;
@@ -196,10 +198,14 @@ class Consommable
         return $this;
     }
 
-
-    public function setActivated(?bool $activated): self
+    public function getStatus(): ?bool
     {
-        $this->activated = $activated;
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

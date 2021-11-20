@@ -7,91 +7,60 @@ use App\Repository\ConsommableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use App\Controller\OrderAction;
-use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- * @ApiResource(
- *   normalizationContext={"groups" = {"read"}},
- *   denormalizationContext={"groups" = {"write"}},
- *   collectionOperations={
- *     "get",
- *     "post" = {
- *       "controller" = OrderAction::class,
- *       "deserialize" = false,
- *       },
- *   },
- *   itemOperations={
- *     "get",
- *     "patch",
- *     "delete",
- *     "put",
- *   }
- * )
+ * @ApiResource()
+ * @ORM\Entity(repositoryClass=ConsommableRepository::class)
  */
-
 class Consommable
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
-    public $name;
+    private $name;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"read"})
      */
-    public $price;
+    private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
-    public $description;
+    private $description;
 
     /**
-    * @ORM\Column()
-    * @Groups({"read"})
-    * @ApiProperty(
-    *   iri="http://schema.org/image",
-    *   attributes={
-    *     "openapi_context"={
-    *       "type"="string",
-    *     }
-    *   }
-    * )
-    */
-    public $picture;
+     * @ORM\Column(type="string", length=255)
+     */
+    private $picture;
+
+
+    /**
+     * @ApiResource()
+     */
+    private private $logo;
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeConsommable::class)
-     * @Groups({"read"})
-    */
-    public $typeConsommable;
+     */
+    private $typeConsommable;
 
     /**
      * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="consommableId")
      */
-    public $orders;
+    private $orders;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
-     *  @Groups({"read"})
      */
-    public $activated;
+    private $status;
 
     public function __construct()
     {
@@ -150,12 +119,6 @@ class Consommable
 
         return $this;
     }
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    
 
     public function getTypeConsommable(): ?TypeConsommable
     {
@@ -196,10 +159,14 @@ class Consommable
         return $this;
     }
 
-
-    public function setActivated(?bool $activated): self
+    public function getStatus(): ?bool
     {
-        $this->activated = $activated;
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
-use App\Controller\OrderAction;
-use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\SuperheroCoverController;
 
 
 /**
@@ -18,13 +17,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *   normalizationContext={"groups" = {"read"}},
  *   denormalizationContext={"groups" = {"write"}},
- *   collectionOperations={
- *     "get",
- *     "post" = {
- *       "controller" = OrderAction::class,
- *       "deserialize" = false,
- *       },
- *   },
  *   itemOperations={
  *     "get",
  *     "patch",
@@ -42,25 +34,31 @@ class Consommable
      * @ORM\Column(type="integer")
      * @Groups({"read"})
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read"})
      */
-    public $name;
+    private $name;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"read"})
      */
-    public $price;
+    private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read"})
      */
-    public $description;
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read"})
+     */
+    private $picture;
 
     /**
     * @ORM\Column()
@@ -74,24 +72,22 @@ class Consommable
     *   }
     * )
     */
-    public $picture;
+    private  $cover = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeConsommable::class)
-     * @Groups({"read"})
     */
-    public $typeConsommable;
+    private $typeConsommable;
 
     /**
      * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="consommableId")
      */
-    public $orders;
+    private $orders;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
-     *  @Groups({"read"})
      */
-    public $activated;
+    private $status;
 
     public function __construct()
     {
@@ -150,12 +146,6 @@ class Consommable
 
         return $this;
     }
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    
 
     public function getTypeConsommable(): ?TypeConsommable
     {
@@ -196,10 +186,14 @@ class Consommable
         return $this;
     }
 
-
-    public function setActivated(?bool $activated): self
+    public function getStatus(): ?bool
     {
-        $this->activated = $activated;
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

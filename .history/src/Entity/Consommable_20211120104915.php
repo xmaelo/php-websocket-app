@@ -89,9 +89,8 @@ class Consommable
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
-     *  @Groups({"read"})
      */
-    public $activated;
+    public $status;
 
     public function __construct()
     {
@@ -150,9 +149,9 @@ class Consommable
 
         return $this;
     }
-    public function getActivated(): ?bool
+    public function getStatus(): ?string
     {
-        return $this->activated;
+        return $this->status;
     }
 
     
@@ -197,9 +196,9 @@ class Consommable
     }
 
 
-    public function setActivated(?bool $activated): self
+    public function setStatus(?bool $status): self
     {
-        $this->activated = $activated;
+        $this->status = $status;
 
         return $this;
     }

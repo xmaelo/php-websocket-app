@@ -90,7 +90,6 @@ class Consommable
      */
     public $activated;
 
-    
    
 
     public function getId(): ?int
@@ -173,6 +172,4 @@ class Consommable
 
         return $this;
     }
-
-    
 }

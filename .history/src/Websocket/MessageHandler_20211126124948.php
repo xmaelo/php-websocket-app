@@ -38,7 +38,7 @@ class MessageHandler implements MessageComponentInterface
         {
             if($connection === $from)
             {
-                continue;
+                //continue;
             }
             $state = true;
             $data = json_decode($data);

@@ -67,7 +67,7 @@ class MessageHandler implements MessageComponentInterface
             $this->manager->flush();
 
             if($state == true){
-               $connection->send("ss");
+                $connection->send($msg);
             }
         }
     }
@@ -81,5 +81,20 @@ class MessageHandler implements MessageComponentInterface
     {
         $this->connections->detach($conn);
         $conn->close();
+    }
+
+    public function postData($data){
+        $postdata = http_build_query(json_decode($data));
+        $opts = array('http' =>
+            array(
+                'method' => 'POST',
+                'header' => 'Content-type: application/json',
+                'content' => $postdata
+            )
+        );
+        $context = stream_context_create($opts);
+        $result = file_get_contents('http://localhost:8000/api/commandes', false, $context);
+        //print()
+        return $result;
     }
 }

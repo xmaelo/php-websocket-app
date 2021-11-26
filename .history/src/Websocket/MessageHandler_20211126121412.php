@@ -67,7 +67,7 @@ class MessageHandler implements MessageComponentInterface
             $this->manager->flush();
 
             if($state == true){
-               $connection->send("ss");
+               $connection->send("'ss");
             }
         }
     }

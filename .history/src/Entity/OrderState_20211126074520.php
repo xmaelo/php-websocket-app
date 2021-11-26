@@ -3,40 +3,35 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\TableRepository;
+use App\Repository\OrderStateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass=TableRepository::class)
- * @ORM\Table(name="`table`")
+ * @ORM\Entity(repositoryClass=OrderStateRepository::class)
  */
-class Table
+class OrderState
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"read"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $capacity;
+    private $task_name;
 
-   
+    
 
     public function getId(): ?int
     {
@@ -55,17 +50,17 @@ class Table
         return $this;
     }
 
-    public function getCapacity(): ?int
+    public function getTaskName(): ?string
     {
-        return $this->capacity;
+        return $this->task_name;
     }
 
-    public function setCapacity(?int $capacity): self
+    public function setTaskName(string $task_name): self
     {
-        $this->capacity = $capacity;
+        $this->task_name = $task_name;
 
         return $this;
     }
 
-   
+    
 }

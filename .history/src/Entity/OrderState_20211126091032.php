@@ -8,8 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource()
@@ -21,27 +19,28 @@ class OrderState
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @Groups({"read"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
      */
     private $task_name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="status")
+     */
+    private $ManyToOne;
 
     public function __construct()
     {
-        //$this->ManyToOne = new ArrayCollection();
+        $this->ManyToOne = new ArrayCollection();
     }
 
     
@@ -75,35 +74,35 @@ class OrderState
         return $this;
     }
 
-    // /**
-    //  * @return Collection|Commande[]
-    //  */
-    // public function getManyToOne(): Collection
-    // {
-    //     return $this->ManyToOne;
-    // }
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getManyToOne(): Collection
+    {
+        return $this->ManyToOne;
+    }
 
-    // public function addManyToOne(Commande $manyToOne): self
-    // {
-    //     if (!$this->ManyToOne->contains($manyToOne)) {
-    //         $this->ManyToOne[] = $manyToOne;
-    //         $manyToOne->setStatus($this);
-    //     }
+    public function addManyToOne(Commande $manyToOne): self
+    {
+        if (!$this->ManyToOne->contains($manyToOne)) {
+            $this->ManyToOne[] = $manyToOne;
+            $manyToOne->setStatus($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeManyToOne(Commande $manyToOne): self
-    // {
-    //     if ($this->ManyToOne->removeElement($manyToOne)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($manyToOne->getStatus() === $this) {
-    //             $manyToOne->setStatus(null);
-    //         }
-    //     }
+    public function removeManyToOne(Commande $manyToOne): self
+    {
+        if ($this->ManyToOne->removeElement($manyToOne)) {
+            // set the owning side to null (unless already changed)
+            if ($manyToOne->getStatus() === $this) {
+                $manyToOne->setStatus(null);
+            }
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     
 }

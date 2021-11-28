@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *   denormalizationContext={"groups" = {"write"}},
  *   collectionOperations={
  *     "get",
+ *     "patch",
  *     "post" = {
  *       "controller" = OrderAction::class,
  *       "deserialize" = false,
@@ -28,7 +29,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *   itemOperations={
  *     "get",
  *     "delete",
- *      "patch",
  *     "put",
  *   }
  * )

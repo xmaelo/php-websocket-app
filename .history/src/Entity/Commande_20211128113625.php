@@ -16,7 +16,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * normalizationContext={"groups": {"read"}},
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
- * @ApiFilter(SearchFilter::class, properties={"random": "exact", "task": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"random": "exact"})
  */
 class Commande
 {
@@ -69,15 +69,16 @@ class Commande
     private $random;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
+     */
+    private $taskname;
+
+    /**
      * @ORM\Column(type="float", nullable=true)
      * @Groups({"read"})
      */
     private $price;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $task;
 
     public function __construct()
     {
@@ -176,6 +177,16 @@ class Commande
 
         return $this;
     }
+    public function getTaskname(): ?string
+    {
+        return $this->taskname;
+    }
+
+    public function setTaskname(string $task): self
+    {
+        $this->taskname = $task;
+        return $this;
+    }
 
     public function getPrice(): ?float
     {
@@ -185,18 +196,6 @@ class Commande
     public function setPrice(?float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getTask(): ?string
-    {
-        return $this->task;
-    }
-
-    public function setTask(?string $task): self
-    {
-        $this->task = $task;
 
         return $this;
     }

@@ -16,7 +16,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * normalizationContext={"groups": {"read"}},
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
- * @ApiFilter(SearchFilter::class, properties={"random": "exact", "task": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"random": "exact"})
  */
 class Commande
 {

@@ -5,17 +5,9 @@ use Exception;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use SplObjectStorage;
-use App\Entity\Commande;
-use App\Repository\CommandeRepository;
-use App\Repository\TableRepository;
-use App\Repository\OrderStateRepository;
-use App\Repository\ConsommableRepository;
 
 class MessageHandler implements MessageComponentInterface
 {
-    protected TableRepository $tableR; 
-    protected OrderStateRepository $orderR; 
-    protected ConsommableRepository $consomR; 
 
     protected $connections;
 

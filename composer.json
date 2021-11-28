@@ -58,8 +58,10 @@
         "symfony/stopwatch": "5.3.*",
         "symfony/web-profiler-bundle": "5.3.*"
     },
+    
     "config": {
         "optimize-autoloader": true,
+        "platform-check": false,
         "preferred-install": {
             "*": "dist"
         },

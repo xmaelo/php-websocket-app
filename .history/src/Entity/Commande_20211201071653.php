@@ -76,7 +76,6 @@ class Commande
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
      */
     private $task;
 

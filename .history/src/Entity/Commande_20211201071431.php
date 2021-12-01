@@ -76,15 +76,8 @@ class Commande
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
      */
     private $task;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
-     */
-    private $object;
 
     public function __construct()
     {
@@ -204,18 +197,6 @@ class Commande
     public function setTask(?string $task): self
     {
         $this->task = $task;
-
-        return $this;
-    }
-
-    public function getObject(): ?string
-    {
-        return $this->object;
-    }
-
-    public function setObject(?string $object): self
-    {
-        $this->object = $object;
 
         return $this;
     }

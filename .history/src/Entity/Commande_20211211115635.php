@@ -18,13 +18,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
  * @ApiFilter(
- *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact"}
+ *  SearchFilter::class, properties={"random": "exact", "task": "exact"}
  * )
  * @ApiFilter(
  *  RangeFilter::class, properties={"timestamp"}
  * )
  */
-
 class Commande
 {
     /**
@@ -98,6 +97,12 @@ class Commande
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"read"})
+     */
+    private $createAt;
 
     /**
      * @Groups({"read"})
@@ -251,7 +256,17 @@ class Commande
         return $this;
     }
 
-   
+    public function getCreateAt(): ?int
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(int $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
 
     public function getTimestamp(): ?int
     {

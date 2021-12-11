@@ -18,10 +18,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
  * @ApiFilter(
- *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact"}
+ *  SearchFilter::class, properties={"random": "exact", "task": "exact"}
  * )
  * @ApiFilter(
  *  RangeFilter::class, properties={"timestamp"}
+ * )
+ * @ApiFilter(
+ *  SearchFilter::class, properties={"user.username": "exact"}
  * )
  */
 

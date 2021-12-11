@@ -21,7 +21,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
  *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact"}
  * )
  * @ApiFilter(
- *  RangeFilter::class, properties={"timestamp"}
+ *  RangeFilter::class, properties={"timestamp1"}
  * )
  */
 
@@ -103,7 +103,7 @@ class Commande
      * @Groups({"read"})
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $timestamp;
+    private $timestamp1;
 
     public function __construct()
     {
@@ -253,14 +253,14 @@ class Commande
 
    
 
-    public function getTimestamp(): ?int
+    public function getTimestamp1(): ?int
     {
-        return $this->timestamp;
+        return $this->timestamp1;
     }
 
-    public function setTimestamp(?int $timestamp): self
+    public function setTimestamp1(?int $timestamp1): self
     {
-        $this->timestamp = $timestamp;
+        $this->timestamp1 = $timestamp1;
 
         return $this;
     }

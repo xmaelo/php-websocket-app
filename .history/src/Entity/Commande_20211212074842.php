@@ -22,7 +22,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact", "status.task_name": "exact"}
  * )
  * @ApiFilter(
- *  DateFilter::class, properties= {"time"}
+ *  RangeFilter::class, properties={"timestamp"}
+ * )
+ * @ApiFilter(
+ *  DateFilter::class, properties: {"time"}
  * )
  */
 
@@ -100,6 +103,11 @@ class Commande
      */
     private $user;
 
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $timestamp;
 
     public function __construct()
     {
@@ -247,4 +255,17 @@ class Commande
         return $this;
     }
 
+   
+
+    public function getTimestamp(): ?int
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(?int $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
 }

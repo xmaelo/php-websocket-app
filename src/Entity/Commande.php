@@ -26,7 +26,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *  DateFilter::class, properties= {"time"}
  * )
  * @ApiFilter(
- *  BooleanFilter::class, properties= {"archived"}
+ *  BooleanFilter::class, properties= {"encaisse"}
  * )
  */
 
@@ -108,7 +108,13 @@ class Commande
      * @Groups({"read"})
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $archived;
+    private $nonfacturer;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $encaisse;
 
 
     public function __construct()
@@ -257,14 +263,25 @@ class Commande
         return $this;
     }
 
-    public function getArchived(): ?bool
+    public function getNonfacturer(): ?bool
     {
-        return $this->archived;
+        return $this->nonfacturer;
     }
 
-    public function setArchived(?bool $archived): self
+    public function setNonfacturer(?bool $nonfacturer): self
     {
-        $this->archived = $archived;
+        $this->nonfacturer = $nonfacturer;
+
+        return $this;
+    }
+    public function getEncaisse(): ?bool
+    {
+        return $this->encaisse;
+    }
+
+    public function setEncaisse(?bool $encaisse): self
+    {
+        $this->encaisse = $encaisse;
 
         return $this;
     }

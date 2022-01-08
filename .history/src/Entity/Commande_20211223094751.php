@@ -10,14 +10,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource(
  * normalizationContext={"groups": {"read"}},
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
- * @ApiFilter(SearchFilter::class, properties={"random": "exact"})
+ * @ApiFilter(
+ *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact", "status.task_name": "exact"}
+ * )
+ * @ApiFilter(
+ *  DateFilter::class, properties= {"time"}
+ * )
+ * @ApiFilter(
+ *  BooleanFilter::class, properties= {"archived"}
+ * )
  */
+
 class Commande
 {
     /**
@@ -69,16 +81,35 @@ class Commande
     private $random;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
-     */
-    private $taskname;
-
-    /**
      * @ORM\Column(type="float", nullable=true)
      * @Groups({"read"})
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
+     */
+    private $task;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
+     */
+    private $object;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
+     */
+    private $user;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $nonfacturer;
+
 
     public function __construct()
     {
@@ -177,15 +208,6 @@ class Commande
 
         return $this;
     }
-    public function getTaskname(): ?string
-    {
-        return $this->taskname;
-    }
-
-    public function setTaskname(string $task): self
-    {
-        $this->taskname = $task;
-    }
 
     public function getPrice(): ?float
     {
@@ -198,4 +220,53 @@ class Commande
 
         return $this;
     }
+
+    public function getTask(): ?string
+    {
+        return $this->task;
+    }
+
+    public function setTask(?string $task): self
+    {
+        $this->task = $task;
+
+        return $this;
+    }
+
+    public function getObject(): ?string
+    {
+        return $this->object;
+    }
+
+    public function setObject(?string $object): self
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNonfacturer(): ?bool
+    {
+        return $this->nonfacturer;
+    }
+
+    public function setNonfacturer(?bool $nonfacturer): self
+    {
+        $this->nonfacturer = $nonfacturer;
+
+        return $this;
+    }
+
 }

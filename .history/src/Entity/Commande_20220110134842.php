@@ -10,14 +10,30 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * @ApiResource(
  * normalizationContext={"groups": {"read"}},
  * )
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
- * @ApiFilter(SearchFilter::class, properties={"random": "exact", "task": "exact"})
+ * @ApiFilter(
+ *  SearchFilter::class, properties={"random": "exact", "task": "exact", "user.username": "exact", "status.task_name": "exact"}
+ * )
+ * @ApiFilter(
+ *  DateFilter::class, properties= {"time"}
+ * )
+ * @ApiFilter(
+ *  BooleanFilter::class, properties= {"encaisse"}
+ * )
+ * @ApiFilter(OrderFilter::class, properties={'id' => 'DESC'})
+ * 
  */
+
+
 class Commande
 {
     /**
@@ -93,16 +109,17 @@ class Commande
     private $user;
 
     /**
-     * @ORM\Column(type="integer")
      * @Groups({"read"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $createAt;
+    private $nonfacturer;
 
     /**
      * @Groups({"read"})
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $timestamp;
+    private $encaisse;
+
 
     public function __construct()
     {
@@ -250,27 +267,27 @@ class Commande
         return $this;
     }
 
-    public function getCreateAt(): ?int
+    public function getNonfacturer(): ?bool
     {
-        return $this->createAt;
+        return $this->nonfacturer;
     }
 
-    public function setCreateAt(int $createAt): self
+    public function setNonfacturer(?bool $nonfacturer): self
     {
-        $this->createAt = $createAt;
+        $this->nonfacturer = $nonfacturer;
+
+        return $this;
+    }
+    public function getEncaisse(): ?bool
+    {
+        return $this->encaisse;
+    }
+
+    public function setEncaisse(?bool $encaisse): self
+    {
+        $this->encaisse = $encaisse;
 
         return $this;
     }
 
-    public function getTimestamp(): ?int
-    {
-        return $this->timestamp;
-    }
-
-    public function setTimestamp(?int $timestamp): self
-    {
-        $this->timestamp = $timestamp;
-
-        return $this;
-    }
 }
